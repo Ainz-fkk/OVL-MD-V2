@@ -1,4 +1,4 @@
-const antiBug = async (ovl, ms_org, ms, texte, auteur_Message, verif_Groupe, prenium_id, verif_Ovl_Admin) => {
+const antibug = async (ovl, ms_org, ms, texte, auteur_Message, verif_Groupe, prenium_id, verif_Ovl_Admin) => {
   const isBuggy = (txt) => {
     const invisibles = /[\u200E\u200F\u200D\u200C\u2060\uFEFF]/g;
     const controlChars = /[\x00-\x1F\x7F]/g;
@@ -78,4 +78,4 @@ const antiBug = async (ovl, ms_org, ms, texte, auteur_Message, verif_Groupe, pre
   }
 };
 
-module.exports = antiBug;
+module.exports = antibug;
