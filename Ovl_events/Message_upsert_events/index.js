@@ -11,6 +11,6 @@ module.exports = {
   getLid: require('./cache'),
   mention: require('./mention'),
   eval_exec: require('./eval_exec'),
-  antimention: require('./antimention')
+  antimention: require('./antimention'),
   antibug: require('./antibug')
 };
