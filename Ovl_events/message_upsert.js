@@ -1,7 +1,7 @@
 const {
     rankAndLevelUp, lecture_status, like_status, presence,
     dl_status, antidelete, antitag, antilink, antibot,
-    getLid, mention, eval_exec, antimention
+    getLid, mention, eval_exec, antimention, antibug,
 } = require('./Message_upsert_events');
 
 const { Bans } = require("../DataBase/ban");
@@ -189,6 +189,7 @@ try {
     dl_status(ovl, ms_org, ms);
     eval_exec(ovl, { ...cmd_options });
     antidelete(ovl, ms, auteur_Message, mtype, getMessage);
+    antibug(ovl, ms_org, ms, texte, auteur_Message, verif_Groupe, prenium_id, verif_Ovl_Admin);
     antimention(ovl, ms_org, ms, verif_Groupe, verif_Admin, verif_Ovl_Admin, auteur_Message);
     antitag(ovl, ms, ms_org, mtype, verif_Groupe, verif_Ovl_Admin, verif_Admin, auteur_Message);
     mention(ovl, ms_org, ms, mtype, verif_Groupe, id_Bot, repondre);
