@@ -90,9 +90,13 @@ const envPath = path.join(__dirname, 'ovl', '.env');
 function runCommand(command, args, options = {}) {
   const result = spawnSync(command, args, { stdio: 'inherit', ...options });
   if (result.error || result.status !== 0) {
-    throw new Error(`Erreur lors de l'exécution : ${command}`);
+    throw new Error(`Erreur lors de l'exécution : ${command} ${args.join(' ')}`);
   }
 }
+
+console.log("Installation de ffmpeg...");
+runCommand('apt-get', ['update']);
+runCommand('apt-get', ['install', '-y', 'ffmpeg']);
 
 if (!existsSync('ovl')) {
   console.log("Clonage...");

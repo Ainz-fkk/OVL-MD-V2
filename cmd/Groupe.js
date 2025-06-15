@@ -468,26 +468,29 @@ ovlcmd(
     desc: "Supprimer un message.",
   },
   async (ms_org, ovl, cmd_options) => {
-    const { msg_Repondu, ms, auteur_Msg_Repondu, verif_Admin, verif_Ovl_Admin, verif_Groupe, id_Bot, dev_num, dev_id, repondre } = cmd_options;
+    const { msg_Repondu, ms, auteur_Msg_Repondu, verif_Admin, verif_Ovl_Admin, verif_Groupe, dev_num, dev_id, repondre } = cmd_options;
 
     if (!msg_Repondu) return repondre("Veuillez répondre à un message pour le supprimer.");
-    
-    if (dev_num.includes(auteur_Msg_Repondu) && !dev_id) return repondre("Vous ne pouvez pas supprimer le message d'un développeur.");
+
+    if (dev_num.includes(auteur_Msg_Repondu) && !dev_id)
+      return repondre("Vous ne pouvez pas supprimer le message d'un développeur.");
 
     if (verif_Groupe) {
       if (!verif_Admin) return repondre("Vous devez être administrateur pour supprimer un message dans le groupe.");
       if (!verif_Ovl_Admin) return repondre("Je dois être administrateur pour effectuer cette action.");
     } else {
-      if (!(dev_id || auteur_Msg_Repondu === id_Bot)) return repondre("Cette commande ne peut être utilisée ici que par un développeur ou pour ses propres messages.");
+      if (!is_premium) return repondre("Seuls les utilisateurs premium peuvent utiliser cette commande en privé.");
     }
 
     try {
       const key = {
         remoteJid: ms_org,
         fromMe: auteur_Msg_Repondu === id_Bot,
-        id: ms.message.extendedTextMessage.contextInfo.stanzaId,
+        id: ms.message.extendedTextMessage?.contextInfo?.stanzaId,
         participant: auteur_Msg_Repondu,
       };
+
+      if (!key.id) return repondre("Impossible de trouver l'ID du message à supprimer.");
 
       await ovl.sendMessage(ms_org, { delete: key });
     } catch (error) {

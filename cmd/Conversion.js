@@ -353,7 +353,6 @@ ovlcmd(
   );
 
     // Commande ToImage
-
 ovlcmd(
   {
     nom_cmd: "toimage",
@@ -371,10 +370,13 @@ ovlcmd(
 
     try {
       const stickerBuffer = await ovl.dl_save_media_ms(msg_Repondu.stickerMessage);
-      const imageBuffer = await sharp(stickerBuffer).webp().toBuffer();
 
       const fileName = path.join(os.tmpdir(), `${Date.now()}_${Math.floor(Math.random() * 10000)}.png`);
-      await sharp(imageBuffer).toFile(fileName);
+
+      // Convertir directement le buffer du sticker en PNG
+      await sharp(stickerBuffer)
+        .png()
+        .toFile(fileName);
 
       await ovl.sendMessage(
         ms_org,
