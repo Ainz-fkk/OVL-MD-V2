@@ -63,7 +63,7 @@ async function startPrincipalSession() {
   },
   logger: pino({ level: "silent" }),
   keepAliveIntervalMs: 10000,
-  browser: Browsers.macOS("Safari"),
+  browser: Browsers.ubuntu("Chrome"),
   msgRetryCounterCache,
   syncFullHistory: false,
   getMessage: async (key) => {
