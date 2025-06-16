@@ -7,7 +7,7 @@ const {
 const { Bans } = require("../DataBase/ban");
 const { Sudo } = require('../DataBase/sudo');
 const { getMessage, addMessage } = require('../lib/store');
-const { jidDecode, getContentType } = require("@whiskeysockets/baileys");
+const { jidDecode, getContentType, delay } = require("@whiskeysockets/baileys");
 
 const evt = require("../lib/ovlcmd");
 const config = require("../set");
@@ -174,7 +174,7 @@ try {
                 if (!prenium_id && verif_Groupe && await isBanned('group', ms_org)) return;
                 
                 await ovl.sendMessage(ms_org, { react: { text: cd.react || "🎐", key: ms.key } });
-                await delay(500);
+               // await delay(500);
                 cd.fonction(ms_org, ovl, cmd_options);
             }
         }
