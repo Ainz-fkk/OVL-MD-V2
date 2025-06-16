@@ -56,6 +56,7 @@ async function startPrincipalSession() {
     const { version } = await fetchLatestBaileysVersion();
 
     const ovl = makeWASocket({
+  version,
   auth: {
     creds: state.creds,
     keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }))
