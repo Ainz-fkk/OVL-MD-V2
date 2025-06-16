@@ -66,6 +66,7 @@ async function startPrincipalSession() {
   browser: Browsers.ubuntu("Chrome"),
   msgRetryCounterCache,
   syncFullHistory: false,
+  markOnlineOnConnect: true,
   getMessage: async (key) => {
   const msg = getMessage(key.id);
   return msg?.message || undefined;
