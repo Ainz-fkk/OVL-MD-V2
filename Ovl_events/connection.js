@@ -60,6 +60,8 @@ async function connection_update(con, ovl, main, startNextSession = null) {
       const code = lastDisconnect?.error?.output?.statusCode;
       if (code === DisconnectReason.loggedOut) {
         console.log("⛔ Déconnecté : Session terminée.");
+        console.log(lastDisconnect?.error);
+        console.log(" fin error connection update");
       } else {
         console.log("⚠️ Connexion perdue, tentative de reconnexion...");
         await delay(5000);
