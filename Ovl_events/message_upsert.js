@@ -149,6 +149,7 @@ try {
                 if (!prenium_id && verif_Groupe && await isBanned('group', ms_org)) return;
 
                 await ovl.sendMessage(ms_org, { react: { text: cd.react || "🎐", key: ms.key } });
+                await delay(500);
                 cd.fonction(ms_org, ovl, cmd_options);
             } catch (e) {
                 console.error("Erreur:", e);
@@ -173,6 +174,7 @@ try {
                 if (!prenium_id && verif_Groupe && await isBanned('group', ms_org)) return;
                 
                 await ovl.sendMessage(ms_org, { react: { text: cd.react || "🎐", key: ms.key } });
+                await delay(500);
                 cd.fonction(ms_org, ovl, cmd_options);
             }
         }
