@@ -71,6 +71,9 @@ async function startPrincipalSession() {
   return msg?.message || undefined;
   }
 });
+    ovl.ws.on('close', (code, reason) => {
+        console.warn(`⚠️ WebSocket closed! Code: ${code}, Reason: ${reason}`);
+    });
     ovl.ev.on("messages.upsert", async (m) => message_upsert(m, ovl));
     ovl.ev.on("group-participants.update", async (data) => group_participants_update(data, ovl));
 
