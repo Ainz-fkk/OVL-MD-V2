@@ -150,8 +150,6 @@ try {
             if (!prenium_id && verif_Groupe && await isBanned('group', ms_org)) return;
 
             await ovl.sendMessage(ms_org, { react: { text: cd.react || "🎐", key: ms.key } });
-            await delay(500);
-
             let ovlTraduction = ovl;
             let cmdOptsTraduits = cmd_options;
 
@@ -161,7 +159,7 @@ try {
                 cmdOptsTraduits = proxys.cmd_options;
             }
 
-            await cd.fonction(ms_org, ovlTraduction, cmdOptsTraduits);
+            cd.fonction(ms_org, ovlTraduction, cmdOptsTraduits);
         } catch (e) {
             console.error("Erreur:", e);
             ovl.sendMessage(ms_org, { text: "Erreur: " + e }, { quoted: ms });
@@ -194,7 +192,7 @@ if (ms?.message?.stickerMessage) {
                     cmdOptsTraduits = proxys.cmd_options;
                 }
 
-                await cd.fonction(ms_org, ovlTraduction, cmdOptsTraduits);
+               cd.fonction(ms_org, ovlTraduction, cmdOptsTraduits);
             }
         }
     } catch (e) {
