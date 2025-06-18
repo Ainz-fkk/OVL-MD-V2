@@ -7,6 +7,7 @@ const {
 const { Bans } = require("../DataBase/ban");
 const { Sudo } = require('../DataBase/sudo');
 const { getMessage, addMessage } = require('../lib/store');
+const ovl_lang = require('../lib/ovl_lang');
 const { jidDecode, getContentType } = require("@whiskeysockets/baileys");
 
 const evt = require("../lib/ovlcmd");
@@ -140,31 +141,40 @@ try {
 
     // Commande texte
     if (isCmd) {
-        const cd = evt.cmd.find(c => c.nom_cmd === cmdName || c.alias?.includes(cmdName));
-        if (cd) {
-            try {
-                if (config.MODE !== 'public' && !prenium_id) return;
-                if ((!dev_id && auteur_Message !== await JidToLid('221772430620@s.whatsapp.net')) && ms_org === "120363314687943170@g.us") return;
-                if (!prenium_id && await isBanned('user', auteur_Message)) return;
-                if (!prenium_id && verif_Groupe && await isBanned('group', ms_org)) return;
+    const cd = evt.cmd.find(c => c.nom_cmd === cmdName || c.alias?.includes(cmdName));
+    if (cd) {
+        try {
+            if (config.MODE !== 'public' && !prenium_id) return;
+            if ((!dev_id && auteur_Message !== await JidToLid('221772430620@s.whatsapp.net')) && ms_org === "120363314687943170@g.us") return;
+            if (!prenium_id && await isBanned('user', auteur_Message)) return;
+            if (!prenium_id && verif_Groupe && await isBanned('group', ms_org)) return;
 
-                await ovl.sendMessage(ms_org, { react: { text: cd.react || "🎐", key: ms.key } });
-                await delay(500);
-                cd.fonction(ms_org, ovl, cmd_options);
-            } catch (e) {
-                console.error("Erreur:", e);
-                ovl.sendMessage(ms_org, { text: "Erreur: " + e }, { quoted: ms });
+            await ovl.sendMessage(ms_org, { react: { text: cd.react || "🎐", key: ms.key } });
+            await delay(500);
+
+            let ovlTraduction = ovl;
+            let cmdOptsTraduits = cmd_options;
+
+            if (config.LANGUE && config.LANGUE !== 'fr') {
+                const proxys = ovl_lang(ovl, cmd_options, config.LANGUE);
+                ovlTraduction = proxys.ovl;
+                cmdOptsTraduits = proxys.cmd_options;
             }
+
+            await cd.fonction(ms_org, ovlTraduction, cmdOptsTraduits);
+        } catch (e) {
+            console.error("Erreur:", e);
+            ovl.sendMessage(ms_org, { text: "Erreur: " + e }, { quoted: ms });
         }
     }
+}
 
-    // Commande par sticker
-    if (ms?.message?.stickerMessage) {
-        try {
-            const allStickCmds = await get_stick_cmd();
-            const entry = allStickCmds.find(e => e.stick_url == ms.message.stickerMessage.url);
-            if (entry)  {
-
+// Commande par sticker
+if (ms?.message?.stickerMessage) {
+    try {
+        const allStickCmds = await get_stick_cmd();
+        const entry = allStickCmds.find(e => e.stick_url == ms.message.stickerMessage.url);
+        if (entry)  {
             const cmd = entry.no_cmd;
             const cd = evt.cmd.find(z => z.nom_cmd === cmd || z.alias?.includes(cmd));
             if (cd) {
@@ -174,13 +184,23 @@ try {
                 if (!prenium_id && verif_Groupe && await isBanned('group', ms_org)) return;
                 
                 await ovl.sendMessage(ms_org, { react: { text: cd.react || "🎐", key: ms.key } });
-                 cd.fonction(ms_org, ovl, cmd_options);
+
+                let ovlTraduction = ovl;
+                let cmdOptsTraduits = cmd_options;
+
+                if (config.LANGUE && config.LANGUE !== 'fr') {
+                    const proxys = ovl_lang(ovl, cmd_options, config.LANGUE);
+                    ovlTraduction = proxys.ovl;
+                    cmdOptsTraduits = proxys.cmd_options;
+                }
+
+                await cd.fonction(ms_org, ovlTraduction, cmdOptsTraduits);
             }
         }
-        } catch (e) {
-            console.error("Erreur sticker command:", e);
-        }
+    } catch (e) {
+        console.error("Erreur sticker command:", e);
     }
+}
     
     // Événements
     rankAndLevelUp(ovl, ms_org, texte, auteur_Message, nom_Auteur_Message, config);
