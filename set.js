@@ -11,6 +11,7 @@ module.exports = {
   STICKER_PACK_NAME: process.env.STICKER_PACK_NAME || "Wa-sticker",
   STICKER_AUTHOR_NAME: process.env.STICKER_AUTHOR_NAME || "OVL-MD",
   DATABASE: process.env.DATABASE,
+  LANGUE: process.env.LANGUE,
   RENDER_API_KEY: process.env.RENDER_API_KEY,
-  THEME: "1"
+  THEME: "1",
 };
